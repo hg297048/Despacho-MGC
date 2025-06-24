@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Despacho Juridico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            /* 🔥 Centra verticalmente el texto con la imagen */
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            gap: 10px;
+            /* Espacio entre imagen y texto */
+        }
+
+        .logo img {
+            display: block;
+            height: 90px;
+            /* Asegúrate de que coincida con tu diseño */
+            width: auto;
+        }
+
+        .logo-text {
+            white-space: nowrap;
+            /* Evita que el texto se divida en dos líneas */
+        }
+
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .mobile-menu ul li {
+            margin: 15px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+        }
+
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.75), rgba(15, 15, 15, 0.75)),
+                url('https://img.freepik.com/fotos-premium/escritorio-despacho-abogados-documentos-legales-escalas-justicia-martillo-ia-generativa_547471-6377.jpg');
+            text-align: center;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://img.freepik.com/fotos-premium/escritorio-despacho-abogados-documentos-legales-escalas-justicia-martillo-ia-generativa_547471-6377.jpg') center/cover;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s infinite;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            color: #000000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #FFD700, #C0C0C0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: gold;
+        }
+
+        .service-icon .icon {
+            color: #FFD700
+        }
+
+        .service-card h3 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* About */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #cccccc;
+        }
+
+        .about-image {
+            height: 400px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(192, 192, 192, 0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #FFD700;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .about-logo {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+
+        /* Contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #FFD700;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(26, 26, 26, 0.6);
+            border-radius: 10px;
+            border: 1px solid rgba(192, 192, 192, 0.2);
+        }
+
+        .contact-item-icon {
+            color: #FFD700;
+            /* Color dorado */
+            margin-bottom: 1rem;
+        }
+
+        .contact-item-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 3rem 0 1rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #FFD700;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            color: #888888;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+
+            100% {
+                background-position: 200% center;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 50px 0;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="icons/logo.svg" alt="Logo del despacho" width="100" height="70">
+                <span class="logo-text">Despacho Jurídicos</span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#video">Video</a></li>
+                <li><a href="#galeria">Imagenes</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+
+            </ul>
+
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#inicio" onclick="closeMobileMenu()">Inicio</a></li>
+                <li><a href="#servicios" onclick="closeMobileMenu()">Servicios</a></li>
+                <li><a href="#nosotros" onclick="closeMobileMenu()">Nosotros</a></li>
+                <li><a href="#contacto" onclick="closeMobileMenu()">Contacto</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-image"></div>
+            <div class="hero-content">
+                <h1>Prestigio Legal</h1>
+                <p>Comprometido en defender los derechos de mis clientes con experiencia, dedicación y resultados
+                    comprobados</p>
+                <a href="#contacto" class="cta-button">Asesoria Legal</a>
+            </div>
+        </section>
+
+        <section id="servicios" class="section">
+            <div class="container">
+                <h2 class="section-title fade-in">Mis Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-penal.svg" alt="Ícono Derecho Penal" width="40" height="40">
+                        </div>
+                        <h3>Derecho Penal</h3>
+                        <p>Defensa legal en procesos penales, representación en juicios y asesoramiento en delitos.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-procesal.svg" alt="Ícono Derecho Procesal" width="40" height="40">
+                        </div>
+                        <h3>Derecho Procesal</h3>
+                        <p>Representación en litigios, estrategias procesales y ejecución de sentencias en diversas
+                            materias.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-civil.svg" alt="Ícono Derecho Civil" width="40" height="40">
+                        </div>
+                        <h3>Derecho Civil</h3>
+                        <p>Asesoramiento en contratos, obligaciones, responsabilidad civil y reclamaciones por daños y
+                            prejuicios.</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-laboral.svg" alt="Ícono Derecho Laboral" width="40" height="40">
+                        </div>
+                        <h3>Derecho Laboral</h3>
+                        <p>Asesoramiento en relaciones laborales, contratos de trabajo, despidos y negociaciones</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-familiar.svg" alt="Ícono Derecho Familiar" width="40" height="40">
+                        </div>
+                        <h3>Derecho Familiar</h3>
+                        <p>Divorcios, custodia de menores, pensiones alimenticias y sucesiones testamentarias</p>
+                    </div>
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <img src="icons\derecho-público.svg" alt="Ícono Derecho Público" width="40" height="40">
+                        </div>
+                        <h3>Derecho Público</h3>
+                        <p>Asesoría en procedimientos administrativos, recursos contra actos de la administración y
+                            derecho constitucional</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nosotros" class="section">
+            <div class="container">
+                <h2 class="section-title fade-in">Sobre Mí</h2>
+                <div class="about-content">
+                    <div class="about-text fade-in">
+                        <p>Con más de 15 años de experiencia en el ámbito legal, mí despacho juridico se ha consolidado
+                            como
+                            líder en la prestación de servicios jurídicos de alta calidad.</p>
+
+                        <p>Me especializo en brindar soluciones legales integrales, combinando experiencia técnica
+                            con un enfoque personalizado para cada cliente. Cuento con un equipo de abogados altamente
+                            calificados que estan comprometido con la excelencia y la obtención de resultados
+                            favorables.</p>
+
+                        <p>La confianza de mis clientes es mí mayor activo, construida a través de años de
+                            servicio profesional, ético y transparente.</p>
+                    </div>
+                    <div class="about-image fade-in">
+                        <img src="icons\logo.svg" alt="Logo" class="about-logo">
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Sección de Video -->
+        <section id="video" class="section">
+            <div class="container">
+                <h2 class="section-title fade-in">Video</h2>
+                <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+                    <video autoplay loop playsinline style="position:absolute; top:0; left:0; width:100%; height:100%;">
+                        <source src="imagenes y video\Despacho.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Galería -->
+        <section id="galeria" class="section">
+            <div class="container">
+                <h2 class="section-title fade-in">Imagenes</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <img src="imagenes y video\1.jpeg" alt="Foto 1" style="width:100%; border-radius:12px;">
+                    <img src="imagenes y video\2.jpg" alt="Foto 2" style="width:100%; border-radius:12px;">
+                    <img src="imagenes y video\3.jpg" alt="Foto 3" style="width:100%; border-radius:12px;">
+                    <img src="imagenes y video\4.jpeg" alt="Foto 4" style="width:100%; border-radius:12px;">
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section">
+            <div class="container">
+                <h2 class="section-title fade-in">Contáctame</h2>
+                <form class="contact-form fade-in">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <input type="text" id="asunto" name="asunto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Solicitar Asesoria</button>
+                </form>
+
+                <div class="contact-info fade-in">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <!-- Contenido de ubicacion.svg copiado aquí -->
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <!-- Asegúrate de que el atributo `fill` sea `currentColor` -->
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 
+                     0-2.5-1.12-2.5-2.5s1.12-2.5 
+                     2.5-2.5 2.5 1.12 2.5 2.5-1.12 
+                     2.5-2.5 2.5z" />
+                            </svg>
+                        </div>
+                        <h3>Dirección</h3>
+                        <p>Calle Morelos Número 8<br>Colonia Centro<br>Otumba, Estado de México, CP 55900</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <!-- Contenido de telefono.svg modificado para usar currentColor -->
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.17C15.79 14.79 16.37 14.66 16.88 14.82C18.27 15.25 19.78 15.5 21.35 15.5C21.74 15.5 22.06 15.82 22.06 16.21V20.05C22.06 20.44 21.74 20.76 21.35 20.76C11.75 20.76 3.94 12.95 3.94 3.35C3.94 2.96 4.26 2.64 4.65 2.64H8.5C8.89 2.64 9.21 2.96 9.21 3.35C9.21 4.92 9.46 6.43 9.89 7.82C10.05 8.33 9.92 8.91 9.54 9.29L7.33 11.5C7.43 11.93 7.6 12.36 7.82 12.79L6.62 10.79Z" />
+                            </svg>
+                        </div>
+                        <h3>Teléfono</h3>
+                        <p>+52 (55) 3249 5627</p> <!-- Reemplaza con el número real -->
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <!-- Contenido de correo.svg modificado para usar currentColor -->
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 6L12 11L4 6H20ZM4 18V8L12 13L20 8V18H4Z" />
+                            </svg>
+                        </div>
+                        <h3>Correo</h3>
+                        <p>lic.marcialgonzalezcamacho@gmail.com</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Despacho Juridico</h3>
+                    <p>Comprometidos con la excelencia legal y la satisfacción de nuestros clientes desde 2008.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Servicios</h3>
+                    <p><a href="#servicios">Derecho Familiar</a></p>
+                    <p><a href="#servicios">Derecho Laboral</a></p>
+                    <p><a href="#servicios">Derecho Penal</a></p>
+                    <p><a href="#servicios">Derecho Civil</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>📍 Calle Morelos Numero 8, Otumba Estado de México CP 55900</p>
+                    <p>📞 +52 (55) 3249 5627</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Horarios</h3>
+                    <p>Lunes - Viernes: 9:00 - 18:00</p>
+                    <p>Sábados: 9:00 - 14:00</p>
+                    <p>Emergencias: 24/7</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Despacho Juridico. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+
+            mobileMenu.classList.toggle('active');
+
+            // Animate hamburger menu
+            const spans = menuToggle.querySelectorAll('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const spans = menuToggle.querySelectorAll('span');
+
+            mobileMenu.classList.remove('active');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function (event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+
+            if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Simulate form submission
+            const button = this.querySelector('button');
+            const originalText = button.textContent;
+
+            button.textContent = 'Enviando...';
+            button.style.opacity = '0.7';
+
+            setTimeout(() => {
+                button.textContent = 'Mensaje Enviado ✓';
+                button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(45deg, #FFD700, #C0C0C0)';
+                    button.style.opacity = '1';
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Add some interactive elements
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(-10px) scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>
